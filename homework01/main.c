@@ -75,22 +75,30 @@ void find_file(char* dir_name, char* file_to_find)
 
 	dp = opendir(dir_name);
 	while((dirp = readdir(dp)) != NULL) {
-
+	    
+	    //making sure it doesn't recurse into the current or parent folder which would make it
+	    //loop infinitely and not end
 	    if(strcmp(dirp->d_name, ".") == 0 || strcmp(dirp->d_name, "..") == 0) {
 		continue;
 	    }
 
-	    if(dirp->d_type == DT_DIR) {
-		chdir(dirp->d_name);
-		find_file(".", file_to_find);
-		chdir("..");
+	    char* path = (char*) malloc(100);
+	    strcpy(path, dir_name);
+	    strcat(path, "/");
+	    strcat(path, dirp->d_name);
 
-	    } else {
-//		printf("<f> %s\n", dirp->d_name);
+	    //if it's a directory, go inside that and call the fuction again.
+	    if(dirp->d_type == DT_DIR) {
+		find_file(path, file_to_find);
+
+	    } else {  // if it's not a directory, than it would be a regular file. If it's the
+		      // file we were searching for, then we can print it
 		if(strcmp(dirp->d_name, file_to_find) == 0) {
-		    printf("File found: %s\n", dirp->d_name);
+		    printf("Found %s in %s\n", dirp->d_name, dir_name);
 		}
 	    }
+
+	    free(path);
 
 	}
 	closedir(dp);
