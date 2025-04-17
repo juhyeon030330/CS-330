@@ -40,6 +40,7 @@ void usage(int argc, char** argv)
 int get_num_ints(char** argv)
 {
   /* TODO */
+    //open file
     FILE* file_1 = fopen(argv[1], "r");
     if (file_1 == NULL) {
 	exit(EXIT_FAILURE);
@@ -50,6 +51,7 @@ int get_num_ints(char** argv)
 	exit(EXIT_FAILURE);
     }
 
+    //create buffer and loop to count line number
     char buffer[MAX_NUM_LENGTH];
 
     int count_1 = 0;
@@ -66,6 +68,7 @@ int get_num_ints(char** argv)
 	count_2++;
     }
 
+    //return line number if the two are same
     if(count_1 == count_2) {
 	return count_1;
     } else {
@@ -95,6 +98,7 @@ void allocate_mem(unsigned int** input_one, unsigned int** input_two,
                   unsigned long int** output, int num_ints)
 {
   /* TODO */
+    //allocate space
     *input_one = (unsigned int*) malloc(sizeof(unsigned int) * num_ints);
     *input_two = (unsigned int*) malloc(sizeof(unsigned int) * num_ints);
     *output = (unsigned long*) malloc(sizeof(unsigned long) * num_ints);
@@ -122,6 +126,7 @@ void get_ints(char** argv, unsigned int* input_one, unsigned int* input_two,
               unsigned long int* output, int num_ints)
 {
   /* TODO */
+    //open file
     FILE* file_1 = fopen(argv[1], "r");
     FILE* file_2 = fopen(argv[2], "r");
 
@@ -129,7 +134,7 @@ void get_ints(char** argv, unsigned int* input_one, unsigned int* input_two,
 	exit(EXIT_FAILURE);
     }
 
-
+    //iterate and store the numbers in an array
     char buffer[MAX_NUM_LENGTH];
     for(int i = 0; i < num_ints; i++) {
 	char* s1 = fgets(buffer, sizeof(buffer), file_1);
@@ -156,6 +161,7 @@ void sum_ints(unsigned int* input_one, unsigned int* input_two,
               unsigned long int* output, int num_ints)
 {
   /* TODO */
+    // sum two inputs and make sure they don't overflow
     for(int i = 0; i < num_ints; i++) {
 	output[i] = (unsigned long) input_one[i] + (unsigned long) input_two[i];
     }
@@ -178,6 +184,7 @@ void save_output(char** argv, unsigned int* input_one, unsigned int* input_two,
                  unsigned long int* output, int num_ints)
 {
   /* TODO */
+    //write it into the file
     FILE* w = fopen(argv[3], "w");
     for(int i = 0; i < num_ints; i++) {
 	fprintf(w, "%lu\n", output[i]);
