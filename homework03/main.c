@@ -152,18 +152,18 @@ void read_info(char* fileName)
 /* This function coverts a sparse matrix stored in COO format to CSR.
    input parameters:
        these are 'consumed' by this function
-       int*           row_ind 		row index for the non-zeros in COO
-       int*           col_ind		column index for the non-zeros in COO
-       double*        val		values for the non-zeros in COO
-       int            m			# of rows in the matrix
-       int            n			# of columns in the matrix
-       int            nnz		# of non-zeros in the matrix
+       int*           row_ind           row index for the non-zeros in COO
+       int*           col_ind           column index for the non-zeros in COO
+       double*        val               values for the non-zeros in COO
+       int            m                 # of rows in the matrix
+       int            n                 # of columns in the matrix
+       int            nnz               # of non-zeros in the matrix
 
        these are 'produced' by this function
-       unsigned int** csr_row_ptr	row pointers to csr_col_ind and 
+       unsigned int** csr_row_ptr       row pointers to csr_col_ind and 
                                         csr_vals in CSR 
-       unsigned int** csr_col_ind	column index for the non-zeros in CSR
-       double**       csr_vals		values for the non-zeros in CSR
+       unsigned int** csr_col_ind       column index for the non-zeros in CSR
+       double**       csr_vals          values for the non-zeros in CSR
    return parameters:
        none
  */
@@ -181,18 +181,18 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 
     // initialize all elements in csr_row_ptr to 0
     for(int i = 0; i < m + 1; i++) {
-	(*csr_row_ptr)[i] = 0;
+        (*csr_row_ptr)[i] = 0;
     }
     
     // increment for the same row index
     for(int i = 0; i < nnz; i++) {
-	(*csr_row_ptr)[row_ind[i]]++;
+        (*csr_row_ptr)[row_ind[i]]++;
     }
 
     // do the y2 = y1 + x2
     (*csr_row_ptr)[0] = 1;
     for(int i = 0; i < m; i++) {
-	(*csr_row_ptr)[i + 1] += (*csr_row_ptr)[i];
+        (*csr_row_ptr)[i + 1] += (*csr_row_ptr)[i];
     }
 
     
@@ -201,17 +201,17 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
     // make csr_col_ind and csr_vals
     // but first set all csr_col_ind elements to 0
     for(int i = 0; i < nnz; i++) {
-	(*csr_col_ind)[i] = 0;
+        (*csr_col_ind)[i] = 0;
     }
 
     // find the right index value and complete the col and val array
     for(int i = 0; i < nnz; i++) {
-	int index = (*csr_row_ptr)[row_ind[i] - 1] - 1;
-	while((*csr_col_ind)[index] != 0) {
-	    index++;
-	}
-	(*csr_col_ind)[index] = col_ind[i];
-	(*csr_vals)[index] = val[i];
+        int index = (*csr_row_ptr)[row_ind[i] - 1] - 1;
+        while((*csr_col_ind)[index] != 0) {
+            index++;
+        }
+        (*csr_col_ind)[index] = col_ind[i];
+        (*csr_vals)[index] = val[i];
     }
 
 
@@ -224,9 +224,9 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
    The first line contains the number of elements in the vector.
    The rest of the file contains the values in the vector, one element per row.
    input parameters:
-       char*    fileName	Name of the file containing the vector
-       double** vector		Array that will contain the vector
-       int*     vecSize		Integer variable that will contain the size of
+       char*    fileName        Name of the file containing the vector
+       double** vector          Array that will contain the vector
+       int*     vecSize         Integer variable that will contain the size of
                                 the vector
    return parameters:
        none
@@ -266,17 +266,17 @@ void read_vector(char* fileName, double** vector, int* vecSize)
    res)
    input parameters:
        these are 'consumed' by this function
-       unsigned int** csr_row_ptr	row pointers to csr_col_ind and 
+       unsigned int** csr_row_ptr       row pointers to csr_col_ind and 
                                         csr_vals in CSR 
-       unsigned int** csr_col_ind	column index for the non-zeros in CSR
-       double**       csr_vals		values for the non-zeros in CSR
-       int            m			# of rows in the matrix
-       int            n			# of columns in the matrix
-       int            nnz		# of non-zeros in the matrix
-       double         vector_x		input vector
+       unsigned int** csr_col_ind       column index for the non-zeros in CSR
+       double**       csr_vals          values for the non-zeros in CSR
+       int            m                 # of rows in the matrix
+       int            n                 # of columns in the matrix
+       int            nnz               # of non-zeros in the matrix
+       double         vector_x          input vector
 
        these are 'produced' by this function
-       double*        res		Result of SpMV. res = A * x, where
+       double*        res               Result of SpMV. res = A * x, where
                                         A is stored in CSR format and x is 
                                         stored in vector_x
    return parameters:
@@ -290,16 +290,16 @@ void spmv(unsigned int* csr_row_ptr, unsigned int* csr_col_ind,
   /* TODO */
     // first initialize to 0
     for(int i = 0; i < m; i++) {
-	res[i] = 0;
+        res[i] = 0;
     }
 
     // get the starting and ending index. Then do matrix multiplicaton for the required numbers
     for(int i = 0; i < m; i++) {
-	int begin = csr_row_ptr[i] - 1;
-	int end = csr_row_ptr[i + 1] - 1;
-	for(int j = begin; j < end; j++) {
-	    res[i] += csr_vals[j] * vector_x[csr_col_ind[j] - 1];
-	}
+        int begin = csr_row_ptr[i] - 1;
+        int end = csr_row_ptr[i + 1] - 1;
+        for(int j = begin; j < end; j++) {
+            res[i] += csr_vals[j] * vector_x[csr_col_ind[j] - 1];
+        }
     }
 
 }
@@ -310,9 +310,9 @@ void spmv(unsigned int* csr_row_ptr, unsigned int* csr_col_ind,
    The first line contains the number of elements in the vector.
    The rest of the file contains the values in the vector, one element per row.
    input parameters:
-       char*    fileName	Name of the file that will contain the vector
-       double** res 		Array that contains the vector
-       int*     m		Integer variable that contains the size of
+       char*    fileName        Name of the file that will contain the vector
+       double** res             Array that contains the vector
+       int*     m               Integer variable that contains the size of
                                 the vector
    return parameters:
        none
