@@ -17,15 +17,17 @@ const unsigned int MAX_LENGTH = 100;
 
 
 class KCipher : public Cipher {
-private:
-    vector<string> book;
-    unsigned int id;
+protected: 
+    struct CipherCheshire;
+    CipherCheshire *smile;
 
 public:
 
     KCipher();
 
     KCipher(const string& page);
+
+    ~KCipher();
 
     void add_key(const string& page);
 

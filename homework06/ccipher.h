@@ -14,13 +14,9 @@ using namespace std;
 
 
 class CCipher : public Cipher {
-protected:
-    int rotation; // Rotation value for Caesar cipher
 public:
     CCipher();              // Default constructor (rotation 0)
     CCipher(int rot);       // Constructor with rotation
-    string encrypt(string raw) override;
-    string decrypt(string enc) override;
 };
 
 

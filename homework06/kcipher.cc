@@ -15,10 +15,18 @@ using namespace std;
 // -------------------------------------------------------
 
 
+//new structure. conatains pages and page number.
+struct KCipher::CipherCheshire {
+    vector<string> book;
+    unsigned int id;
+};
+
+
 
 KCipher::KCipher() {
-    book.push_back(string(MAX_LENGTH, 'a'));
-    id = 0;
+    smile = new CipherCheshire;
+    smile->book.push_back(string(MAX_LENGTH, 'a'));
+    smile->id = 0;
 }
 
 
@@ -38,11 +46,15 @@ KCipher::KCipher(const string& page) {
         }
     }
 
-    book.push_back(page);
-    id = 0;
+    smile = new CipherCheshire;
+    smile->book.push_back(page);
+    smile->id = 0;
 }
 
-
+KCipher::~KCipher()
+{
+    delete smile;
+}
 
 // Add page
 void KCipher::add_key(const string& page) {
@@ -60,32 +72,32 @@ void KCipher::add_key(const string& page) {
         }
     }
 
-    book.push_back(page);
+    smile->book.push_back(page);
 }
 
 
 
 // Set page id
 void KCipher::set_id(unsigned int i) {
-    if((i < 0) || (i >= book.size())) {
+    if(i >= smile->book.size()) {
         cerr << "Warning: invalid id: " << i << endl;
         exit(EXIT_FAILURE);
     }
 
-    id = i;
+    smile->id = i;
 }
 
 
-
+// add the two alphabet offset from the base alphabet and calculate the target alphabet ascii
 string KCipher::encrypt(string plaintext) {
     string result = "";
-    string key = book[id];
-    key.erase(remove(key.begin(), key.end(), ' '), key.end());
+    string key = smile->book[smile->id];
+    key.erase(remove(key.begin(), key.end(), ' '), key.end());  // remove space
 
     int index = -1;
     for (char& c : plaintext) {
         if (c == ' ') {
-            continue;
+            continue;   // if space is found, don't increment index and continue
         }
         index++;
 
@@ -97,9 +109,10 @@ string KCipher::encrypt(string plaintext) {
     return plaintext;
 }
 
+// same but reverse
 string KCipher::decrypt(string ciphertext) {
     string result = "";
-    string key = book[id];
+    string key = smile->book[smile->id];
     key.erase(remove(key.begin(), key.end(), ' '), key.end());
 
     int index = -1;

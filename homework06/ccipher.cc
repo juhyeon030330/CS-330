@@ -11,67 +11,24 @@
 
 
 
-
-// Default constructor
-CCipher::CCipher() : rotation(0) {}
-
-// Constructor with parameter
-CCipher::CCipher(int rot) {
-
+// Helper function that returns rotated string
+string make_rotated_key(int rot) {
     if (rot < 0) {
         cerr << "Error: Caesar cipher is less than 0" << endl;
         exit(EXIT_FAILURE);
     }
 
-    // make the number less than 26
-    rotation = (rot % 26);
-}
-
-
-// find index and substitute
-string CCipher::encrypt(string raw) {
-    
     string key = "abcdefghijklmnopqrstuvwxyz";
-    rotate_string(key, rotation);
-
-    for(char& c : raw) {
-        if(islower(c)) {
-            c = key[c - 'a'];
-        } else if(isupper(c)) {
-            c = key[tolower(c) - 'a'];
-            c = toupper(c);
-        }
-
-
-
-    }
-
-    
-
-    return raw;
+    rot = rot % 26;
+    rotate_string(key, rot);
+    return key;
 }
 
-// do the reverse
-string CCipher::decrypt(string enc) {
 
-    string key = "abcdefghijklmnopqrstuvwxyz";
-    rotate_string(key, rotation);
-
-    for(char& c : enc) {
-        if(islower(c)) {
-            c = 'a' + key.find(c);
-        } else if(isupper(c)) {
-            c = 'a' + key.find(tolower(c));
-            c = toupper(c);
-        }
+CCipher::CCipher() : Cipher() {}
 
 
-
-    }
-
-    return enc;
-}
-
+CCipher::CCipher(int rot) : Cipher(make_rotated_key(rot)) {}
 
 
 
