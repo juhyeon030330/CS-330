@@ -21,3 +21,5 @@ VCipher::VCipher(string key) : KCipher(key) {
         }
     }
 }
+
+VCipher::~VCipher() {}

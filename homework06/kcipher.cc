@@ -46,6 +46,7 @@ KCipher::KCipher(const string& page) {
         }
     }
 
+
     smile = new CipherCheshire;
     smile->book.push_back(page);
     smile->id = 0;
@@ -93,6 +94,19 @@ string KCipher::encrypt(string plaintext) {
     string result = "";
     string key = smile->book[smile->id];
     key.erase(remove(key.begin(), key.end(), ' '), key.end());  // remove space
+
+
+    int len = 0;
+    for (char c : plaintext) {
+        if (c != ' ') {
+            len++;
+        }
+    }
+    if(key.length() < len) {
+        exit(EXIT_FAILURE);
+    }
+
+
 
     int index = -1;
     for (char& c : plaintext) {

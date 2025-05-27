@@ -31,7 +31,7 @@ CCipher::CCipher() : Cipher() {}
 CCipher::CCipher(int rot) : Cipher(make_rotated_key(rot)) {}
 
 
-
+CCipher::~CCipher() {}
 
 
 // -------------------------------------------------------
@@ -45,5 +45,9 @@ CCipher::CCipher(int rot) : Cipher(make_rotated_key(rot)) {}
 void rotate_string(string& in_str, int rot)
 {
     // TODO: You will likely need this function. Implement it.
-    rotate(in_str.begin(), in_str.begin() + rot, in_str.end());
+    // rotate(in_str.begin(), in_str.begin() + rot, in_str.end());
+
+    reverse(in_str.begin(), in_str.begin() + rot);
+    reverse(in_str.begin() + rot, in_str.end());
+    reverse(in_str.begin(), in_str.end());
 }

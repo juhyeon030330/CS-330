@@ -17,6 +17,7 @@ class CCipher : public Cipher {
 public:
     CCipher();              // Default constructor (rotation 0)
     CCipher(int rot);       // Constructor with rotation
+    ~CCipher();
 };
 
 

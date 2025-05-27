@@ -16,6 +16,7 @@ class VCipher : public KCipher {
 public:
     VCipher();
     VCipher(string key);
+    ~VCipher();
 };
 
 #endif
